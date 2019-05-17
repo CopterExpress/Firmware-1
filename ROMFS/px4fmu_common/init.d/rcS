@@ -267,6 +267,12 @@ else
 	then
 		param set SYS_AUTOCONFIG 0
 	fi
+	unset AUTOCNF
+
+	# Apply Clever defaults
+	sh /etc/init.d/rc.clever
+
+	set IO_PRESENT no
 
 	#
 	# Check if PX4IO present and update firmware if needed.
