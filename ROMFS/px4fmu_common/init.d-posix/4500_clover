@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# @name COEX Clover SITL
+#
+# @type Quadrotor X
+#
+
+sh /etc/init.d/airframes/4500_clover4
+
+# default clover settings
+sh /etc/init.d/rc.clever
+
+#if [ $AUTOCNF = yes ]
+#then
+	# simulator specific settings
+#fi

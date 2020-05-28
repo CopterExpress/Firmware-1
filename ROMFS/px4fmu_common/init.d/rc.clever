@@ -2,6 +2,7 @@ set CLEVER_DEFS 1
 
 if param compare SYS_CLEVER_DEFS $CLEVER_DEFS
 then
+	echo
 else
 	# need to update params
 
