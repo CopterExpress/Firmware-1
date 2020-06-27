@@ -10,7 +10,23 @@ sh /etc/init.d/airframes/4500_clover4
 # default clover settings
 sh /etc/init.d/rc.clever
 
-#if [ $AUTOCNF = yes ]
-#then
+if [ $AUTOCNF = yes ]
+then
 	# simulator specific settings
-#fi
+	# Optical Flow only by default
+	param set EKF2_AID_MASK 2
+	# FIXME: Change/remove these after getting a proper physics model for Clover
+	param set MC_PITCHRATE_P 0.2
+	param set MC_PITCHRATE_I 0.2
+	param set MC_PITCHRATE_D 0.003
+	param set MC_PITCH_P 6
+	param set MC_ROLLRATE_P 0.2
+	param set MC_ROLLRATE_I 0.2
+	param set MC_ROLLRATE_D 0.003
+	param set MC_ROLL_P 6
+	param set MPC_XY_VEL_P 0.2
+	param set MPC_XY_VEL_D 0.016
+	param set MPC_XY_P 0.8
+	param set MPC_Z_VEL_P 0.2
+	param set MPC_Z_P 1.2
+fi
