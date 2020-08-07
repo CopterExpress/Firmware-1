@@ -29,4 +29,10 @@ then
 	param set MPC_XY_P 0.8
 	param set MPC_Z_VEL_P 0.2
 	param set MPC_Z_P 1.2
+	# Restore estimator after applying default clover settings
+	if [ "$PX4_ESTIMATOR" = "ekf2" ]; then
+		param set SYS_MC_EST_GROUP 2
+	elif [ "$PX4_ESTIMATOR" = "lpe" ]; then
+		param set SYS_MC_EST_GROUP 1
+	fi
 fi
