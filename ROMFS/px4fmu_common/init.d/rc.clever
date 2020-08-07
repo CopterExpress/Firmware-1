@@ -1,4 +1,4 @@
-set CLEVER_DEFS 1
+set CLEVER_DEFS 3
 
 if param compare SYS_CLEVER_DEFS $CLEVER_DEFS
 then
@@ -29,6 +29,16 @@ else
 	param set SENS_FLOW_MAXR 10.0
 
 	param set CBRK_USB_CHK 197848
+
+	param set EKF2_AID_MASK 26
+	param set EKF2_OF_DELAY 0
+	param set EKF2_OF_QMIN 10
+	param set EKF2_OF_N_MIN 0.05
+	param set EKF2_OF_N_MAX 0.2
+	param set EKF2_HGT_MODE 2
+	param set EKF2_EVA_NOISE 0.1
+	param set EKF2_EVP_NOISE 0.1
+	param set EKF2_EV_DELAY 0
 
 	param set SYS_CLEVER_DEFS $CLEVER_DEFS
 fi
