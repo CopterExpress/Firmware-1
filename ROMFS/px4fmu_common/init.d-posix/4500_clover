@@ -13,8 +13,6 @@ sh /etc/init.d/rc.clever
 if [ $AUTOCNF = yes ]
 then
 	# simulator specific settings
-	# Optical Flow only by default
-	param set EKF2_AID_MASK 2
 	# FIXME: Change/remove these after getting a proper physics model for Clover
 	param set MC_PITCHRATE_P 0.2
 	param set MC_PITCHRATE_I 0.2
