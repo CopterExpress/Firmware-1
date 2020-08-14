@@ -21,6 +21,9 @@ env:
 stage: Build
 script:
   - ./Tools/docker_run.sh make ${BUILD_TARGET}
+  - mv ./build/${BUILD_TARGET}/${BUILD_TARGET}.px4 ./build/${BUILD_TARGET}/${BUILD_TARGET}-$(git describe --tags).px4
+  - mv ./build/${BUILD_TARGET}/${BUILD_TARGET}.elf ./build/${BUILD_TARGET}/${BUILD_TARGET}-$(git describe --tags).elf
+  - ls -lah ./build/${BUILD_TARGET}/${BUILD_TARGET}*
 
 jobs:
   include:
