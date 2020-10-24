@@ -1,35 +1,74 @@
+dist: xenial
+services:
+  - docker
+
 language: cpp
 
 git:
   depth: 100
   submodules: false
 
-matrix:
-  fast_finish: true
-  include:
-    - os: linux
-      dist: xenial
-      # In order to stay under the coverity rate limit, we only run this weekly
-      # and not on push which is configured in travis-ci settings.
-      if: branch = master
+cache:
+  ccache: true
 
-before_install:
-    - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+env:
+  - BUILD_TARGET=px4_fmu-v2_default
+  - BUILD_TARGET=px4_fmu-v2_lpe
+  - BUILD_TARGET=px4_fmu-v3_default
+  - BUILD_TARGET=px4_fmu-v4_default
+  - BUILD_TARGET=px4_fmu-v5_default
 
-install:
-    - export PATH=$HOME/.local/bin:$PATH
-    - pip install --user --upgrade pip
-    - pip install --user -r Tools/setup/requirements.txt
-
+stage: Build
 script:
-    - make
+  - ./Tools/docker_run.sh make ${BUILD_TARGET}
 
-addons:
-  coverity_scan:
-    project:
-      name: "PX4/Firmware"
-      description: "Build submitted via Travis CI"
-    notification_email: ci@px4.io
-    build_command_prepend: "make distclean"
-    build_command: "make px4_sitl_default"
-    branch_pattern: coverity_scan
+jobs:
+  include:
+    - stage: Tests
+      name: Self-tests
+      script: PX4_DOCKER_REPO="px4io/px4-dev-simulation-bionic:2020-04-01" ./Tools/docker_run.sh make tests
+    - stage: Tests
+      name: Mission test
+      env:
+        - PX4_DOCKER_REPO="px4io/px4-dev-simulation-bionic:2020-04-01"
+      before_script:
+        - ./Tools/docker_run.sh make px4_sitl_default
+        - ./Tools/docker_run.sh make px4_sitl_default sitl_gazebo
+      script:
+        - ./Tools/docker_run.sh ./test/rostest_px4_run.sh mavros_posix_test_mission.test mission:=MC_mission_box vehicle:=iris
+    - stage: Tests
+      name: Offboard test
+      env:
+        - PX4_DOCKER_REPO="px4io/px4-dev-simulation-bionic:2020-04-01"
+      before_script:
+        - ./Tools/docker_run.sh make px4_sitl_default
+        - ./Tools/docker_run.sh make px4_sitl_default sitl_gazebo
+      script:
+        - ./Tools/docker_run.sh ./test/rostest_px4_run.sh mavros_posix_tests_offboard_attctl.test mission:= vehicle:=iris
+        - ./Tools/docker_run.sh ./test/rostest_px4_run.sh mavros_posix_tests_offboard_posctl.test mission:= vehicle:=iris
+    - stage: Annotate
+      name: Auto-generate changelog
+      language: python
+      python: 3.6
+      install:
+        - pip install GitPython PyGithub
+      script:
+        - python3 ./gen_changelog.py
+stages:
+  - Tests
+  - Build
+  - Annotate
+
+deploy:
+  provider: releases
+  api_key: ${GITHUB_OAUTH_TOKEN}
+  file_glob: true
+  file:
+    - build/**/*px4_fmu*.px4
+    - build/**/*px4_fmu*.elf
+  skip_cleanup: true
+  on:
+    tags: true
+  prerelease: true
+  draft: true
+  name: ${TRAVIS_TAG}
