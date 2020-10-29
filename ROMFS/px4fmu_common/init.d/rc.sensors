@@ -205,18 +205,18 @@ then
 	# chip select pin. There are different boards with either one of them and the WHO_AM_I register
 	# will prevent the incorrect driver from a successful initialization.
 
-	if mpu6000 -R 2 -T 20602 start
-	then
-		# ICM20602 internal SPI bus ICM-20608-G is rotated 90 deg yaw
-	else
-		if mpu6000 -R 2 -T 20608 start
-		then
-			# ICM20608 internal SPI bus ICM-20602-G is rotated 90 deg yaw
-		else
-			# BMI055 accel internal SPI bus
-			bmi055 -A start
-		fi
-	fi
+	# if mpu6000 -R 2 -T 20602 start
+	# then
+	# 	# ICM20602 internal SPI bus ICM-20608-G is rotated 90 deg yaw
+	# else
+	# 	if mpu6000 -R 2 -T 20608 start
+	# 	then
+	# 		# ICM20608 internal SPI bus ICM-20602-G is rotated 90 deg yaw
+	# 	else
+	# 		# BMI055 accel internal SPI bus
+	# 		bmi055 -A start
+	# 	fi
+	# fi
 
 	# Start either MPU9250 or BMI160. They are both connected to the same SPI bus and use the same
 	# chip select pin. There are different boards with either one of them and the WHO_AM_I register
