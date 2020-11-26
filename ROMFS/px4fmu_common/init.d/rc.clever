@@ -39,8 +39,8 @@ else
 	param set CBRK_USB_CHK 197848
 	param set CAL_MAG_SIDES 34 # calibrate mag by 2 sides
 
-	param set RC_MAP_KILL_SW 6
-	param set RC_MAP_MODE_SW 5
+	param set RC_MAP_KILL_SW 5
+	param set RC_MAP_FLTMODE 6
 
 	param set SYS_CLEVER_DEFS $CLEVER_DEFS
 fi
