@@ -13,16 +13,41 @@
 
 . ${R}etc/init.d/rc.mc_defaults
 
-param set-default MC_PITCHRATE_P 0.087
-param set-default MC_PITCHRATE_I 0.037
-param set-default MC_PITCHRATE_D 0.0044
-param set-default MC_PITCH_P 8.5
-param set-default MC_ROLLRATE_P 0.087
-param set-default MC_ROLLRATE_I 0.037
-param set-default MC_ROLLRATE_D 0.0044
-param set-default MC_ROLL_P 8.5
-param set-default MPC_XY_VEL_P_ACC 2.2
-param set-default MPC_XY_VEL_D_ACC 0.26
-param set-default MPC_XY_P 1.1
-param set-default MPC_Z_VEL_P_ACC 4.8
-param set-default MPC_Z_P 1.2
+param set-default EKF2_AID_MASK 26 # flow + vis pos + vis yaw
+param set-default EKF2_OF_DELAY 0
+param set-default EKF2_OF_QMIN 10
+param set-default EKF2_OF_N_MIN 0.05
+param set-default EKF2_OF_N_MAX 0.2
+param set-default EKF2_HGT_MODE 2 # range sensor
+param set-default EKF2_EVA_NOISE 0.1
+param set-default EKF2_EVP_NOISE 0.1
+param set-default EKF2_EV_DELAY 0
+
+param set-default ATT_W_EXT_HDG 0.5
+param set-default ATT_EXT_HDG_M 1
+param set-default ATT_W_MAG 0
+
+param set-default LPE_FLW_SCALE 1.0
+param set-default LPE_FLW_R 0.2
+param set-default LPE_FLW_RR 0.0
+param set-default LPE_FLW_QMIN 10
+param set-default LPE_VIS_DELAY 0.0
+param set-default LPE_VIS_Z 0.1
+param set-default LPE_FUSION 86 # flow + vis + land detector + gyro comp
+
+param set-default SENS_FLOW_ROT 0
+param set-default SENS_FLOW_MINHGT 0.0
+param set-default SENS_FLOW_MAXHGT 4.0
+param set-default SENS_FLOW_MAXR 10.0
+
+param set-default CAL_MAG_SIDES 34 # calibrate mag by 2 sides
+
+param set-default RC_MAP_KILL_SW 5
+param set-default RC_MAP_FLTMODE 6
+
+param set-default COM_FLTMODE1 8 # stab
+param set-default COM_FLTMODE2 8 # stab
+param set-default COM_FLTMODE3 1 # alt
+param set-default COM_FLTMODE4 1 # alt
+param set-default COM_FLTMODE5 2 # pos
+param set-default COM_FLTMODE6 2 # pos
